@@ -1,0 +1,143 @@
+<div class="w-full px-6 py-6">
+
+  <!-- Page Title -->
+  <h2 class="text-2xl font-semibold text-slate-800 mb-2">
+    Create New Batch
+  </h2>
+
+  <p class="text-slate-500 mb-6">
+    Set up a new batch for interns
+  </p>
+
+  <!-- Card -->
+  <div class="bg-white rounded-xl shadow p-6 w-full">
+
+    <form
+      [formGroup]="batchForm"
+      (ngSubmit)="submit()"
+      class="space-y-6 max-w-3xl"
+    >
+
+      <!-- Batch Name -->
+      <div>
+        <label
+          for="name"
+          class="block text-sm font-medium text-slate-700 mb-1"
+        >
+          Batch Name <span class="text-red-500">*</span>
+        </label>
+
+        <input
+          id="name"
+          name="name"
+          type="text"
+          formControlName="name"
+          placeholder="Enter batch name"
+          class="w-full rounded-lg border border-slate-300 px-3 py-2
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+
+        <div
+          *ngIf="batchForm.get('name')?.touched && batchForm.get('name')?.invalid"
+          class="text-red-500 text-sm mt-1"
+        >
+          Batch name is required.
+        </div>
+      </div>
+
+      <!-- Start Date -->
+      <div>
+        <label
+          for="startDate"
+          class="block text-sm font-medium text-slate-700 mb-1"
+        >
+          Batch Start Date <span class="text-red-500">*</span>
+        </label>
+
+        <input
+          id="startDate"
+          name="startDate"
+          type="date"
+          formControlName="startDate"
+          class="w-full rounded-lg border border-slate-300 px-3 py-2
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+
+        <div
+          *ngIf="batchForm.get('startDate')?.touched && batchForm.get('startDate')?.invalid"
+          class="text-red-500 text-sm mt-1"
+        >
+          Start date is required.
+        </div>
+      </div>
+
+      <!-- End Date -->
+      <div>
+        <label
+          for="endDate"
+          class="block text-sm font-medium text-slate-700 mb-1"
+        >
+          Batch End Date <span class="text-red-500">*</span>
+        </label>
+
+        <input
+          id="endDate"
+          name="endDate"
+          type="date"
+          formControlName="endDate"
+          [min]="batchForm.get('startDate')?.value"
+          [max]="maxEndDate"
+          class="w-full rounded-lg border border-slate-300 px-3 py-2
+                 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+
+        <p class="text-xs text-slate-500 mt-1">
+          End date must be within 6 months from start date
+        </p>
+
+        <!-- Range validation error -->
+        <div
+          *ngIf="batchForm.errors?.['invalidDateRange'] &&
+                 batchForm.get('endDate')?.touched"
+          class="text-red-500 text-sm mt-1"
+        >
+          End date must be between start date and 6 months after it.
+        </div>
+
+        <!-- Required error -->
+        <div
+          *ngIf="batchForm.get('endDate')?.touched &&
+                 batchForm.get('endDate')?.hasError('required')"
+          class="text-red-500 text-sm mt-1"
+        >
+          End date is required.
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex justify-end gap-3 pt-4">
+
+        <button
+          type="button"
+          routerLink="/batches"
+          class="px-4 py-2 rounded-lg border border-slate-300
+                 hover:bg-slate-50 transition"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          [disabled]="batchForm.invalid || isSubmitting"
+          class="px-5 py-2 rounded-lg bg-indigo-600 text-white
+                 hover:bg-indigo-500 transition
+                 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {{ isSubmitting ? 'Creating...' : 'Create Batch' }}
+        </button>
+
+      </div>
+
+    </form>
+  </div>
+</div>

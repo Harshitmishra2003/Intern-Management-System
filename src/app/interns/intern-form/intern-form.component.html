@@ -1,0 +1,140 @@
+<div class="min-h-screen bg-slate-100 p-8">
+
+  <!-- Page Header -->
+  <h1 class="text-3xl font-semibold text-slate-800">
+    Add New Intern
+  </h1>
+  <p class="text-slate-500 mt-1 mb-8">
+    Register a new intern in the system
+  </p>
+
+  <!-- Card Container -->
+  <div class="bg-white rounded-2xl shadow p-8">
+
+    <form [formGroup]="internForm" (ngSubmit)="submit()">
+
+      <!-- Two Column Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Full Name -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-2">
+            Full Name <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            formControlName="name"
+            placeholder="Enter intern full name"
+            class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          />
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-2">
+            Email Address <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="email"
+            formControlName="email"
+            placeholder="example@email.com"
+            class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          />
+        </div>
+
+        <!-- Mobile -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-2">
+            Mobile Number <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="tel"
+            formControlName="mobileNumber"
+            placeholder="10 digit mobile number"
+            class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          />
+        </div>
+
+        <!-- ID Card Type -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-2">
+            ID Card Type <span class="text-red-500">*</span>
+          </label>
+          <select
+            formControlName="idCardType"
+            class="w-full rounded-xl border border-slate-300 px-4 py-3 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          >
+            <option value="">Select ID card type</option>
+            <option value="FREE">FREE</option>
+            <option value="PREMIUM">PREMIUM</option>
+          </select>
+        </div>
+
+        <!-- Date -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-2">
+            Date of Joining <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="date"
+            formControlName="dateOfJoining"
+            class="w-full rounded-xl border border-slate-300 px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          />
+        </div>
+
+        <!-- Batch -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-2">
+            Batch <span class="text-red-500">*</span>
+          </label>
+          <select
+            formControlName="batchId"
+            class="w-full rounded-xl border border-slate-300 px-4 py-3 bg-white focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+          >
+            <option value="">Select batch</option>
+            <option *ngFor="let batch of runningBatches" [ngValue]="batch.id">
+              {{ batch.name }}
+            </option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Intern ID (Full Width) -->
+      <div class="mt-6">
+        <label class="block text-sm font-medium text-slate-700 mb-2">
+          Intern ID
+        </label>
+        <input
+          type="text"
+          disabled
+          value="Will be generated automatically"
+          class="w-full rounded-xl border border-slate-200 bg-slate-100 px-4 py-3 text-slate-500"
+        />
+        <p class="text-sm text-slate-400 mt-2">
+          Intern ID will be generated automatically
+        </p>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex gap-4 mt-8">
+        <button
+          type="submit"
+          [disabled]="internForm.invalid"
+          class="px-6 py-3 rounded-xl bg-indigo-600 text-white hover:bg-indigo-500 disabled:opacity-50"
+        >
+          Add Intern
+        </button>
+
+        <button
+          type="reset"
+          class="px-6 py-3 rounded-xl bg-slate-200 hover:bg-slate-300"
+        >
+          Reset Form
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+</div>

@@ -1,0 +1,5 @@
+/* Global app-level styles (optional) */
+:host {
+  display: block;
+  height: 100%;
+}

@@ -1,0 +1,173 @@
+<div class="min-h-screen bg-slate-100 p-8">
+
+  <!-- Page Header -->
+  <h1 class="text-3xl font-semibold text-slate-800">
+    Intern List
+  </h1>
+  <p class="text-slate-500 mt-1 mb-8">
+    View and manage all registered interns
+  </p>
+
+  <!-- Filter Card -->
+  <div class="bg-white rounded-2xl shadow p-6 mb-8">
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+      <!-- Search -->
+      <div>
+        <label class="block text-sm font-medium text-slate-600 mb-1">
+          Search by Name
+        </label>
+        <input
+          type="text"
+          placeholder="Enter name..."
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="applyFilters()"
+          class="w-full rounded-xl border border-slate-300 px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        />
+      </div>
+
+      <!-- Batch Filter -->
+      <div>
+        <label class="block text-sm font-medium text-slate-600 mb-1">
+          Filter by Batch
+        </label>
+        <select
+          [(ngModel)]="selectedBatch"
+          (ngModelChange)="applyFilters()"
+          class="w-full rounded-xl border border-slate-300 px-4 py-2 bg-white focus:ring-2 focus:ring-indigo-500"
+        >
+          <option [ngValue]="null">All Batches</option>
+          <option *ngFor="let batch of batches" [ngValue]="batch.id">
+            {{ batch.name }}
+          </option>
+        </select>
+      </div>
+
+      <!-- ID Card Type -->
+      <div>
+        <label class="block text-sm font-medium text-slate-600 mb-1">
+          Filter by ID Card Type
+        </label>
+        <select
+          [(ngModel)]="selectedType"
+          (ngModelChange)="applyFilters()"
+          class="w-full rounded-xl border border-slate-300 px-4 py-2 bg-white focus:ring-2 focus:ring-indigo-500"
+        >
+          <option value="">All Types</option>
+          <option value="FREE">FREE</option>
+          <option value="PREMIUM">PREMIUM</option>
+        </select>
+      </div>
+
+      <!-- Clear -->
+      <div class="flex items-end">
+        <button
+          (click)="clearFilters()"
+          class="w-full rounded-xl bg-slate-200 hover:bg-slate-300 px-4 py-2"
+        >
+          Clear Filters
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Table Card -->
+  <div class="bg-white rounded-2xl shadow overflow-hidden">
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-left">
+
+        <!-- Table Head -->
+        <thead class="bg-slate-50 border-b">
+          <tr class="text-slate-600 text-sm uppercase tracking-wide">
+            <th class="px-6 py-4">Intern ID</th>
+            <th class="px-6 py-4">Name</th>
+            <th class="px-6 py-4">Email</th>
+            <th class="px-6 py-4">Mobile</th>
+            <th class="px-6 py-4">Date of Joining</th>
+            <th class="px-6 py-4">Batch</th>
+            <th class="px-6 py-4">ID Card Type</th>
+            <th class="px-6 py-4 text-right">Actions</th>
+          </tr>
+        </thead>
+
+        <!-- Table Body -->
+        <tbody class="divide-y">
+
+          <tr
+            *ngFor="let i of filteredInterns"
+            class="hover:bg-slate-50 transition"
+          >
+            <td class="px-6 py-4 font-medium text-slate-800">
+              {{ i.internId }}
+            </td>
+
+            <td class="px-6 py-4">
+              {{ i.name }}
+            </td>
+
+            <td class="px-6 py-4 text-slate-600">
+              {{ i.email }}
+            </td>
+
+            <td class="px-6 py-4">
+              {{ i.mobileNumber }}
+            </td>
+
+            <td class="px-6 py-4">
+              {{ i.dateOfJoining | date:'dd-MM-yyyy' }}
+            </td>
+
+            <td class="px-6 py-4">
+              {{ i.batchName || '-' }}
+            </td>
+
+            <!-- Status Badge -->
+            <td class="px-6 py-4">
+              <span
+                [ngClass]="{
+                  'bg-green-100 text-green-700': i.idCardType === 'FREE',
+                  'bg-orange-100 text-orange-700': i.idCardType === 'PREMIUM'
+                }"
+                class="px-3 py-1 rounded-full text-xs font-semibold"
+              >
+                {{ i.idCardType }}
+              </span>
+            </td>
+
+            <td class="px-6 py-4 text-right space-x-2">
+              <button
+                (click)="editIntern(i)"
+                class="px-3 py-1 rounded-lg bg-yellow-500 text-white hover:bg-yellow-600"
+              >
+                Edit
+              </button>
+
+              <button
+                (click)="deleteIntern(i)"
+                class="px-3 py-1 rounded-lg bg-red-600 text-white hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </td>
+
+          </tr>
+
+          <!-- Empty State -->
+          <tr *ngIf="filteredInterns.length === 0">
+            <td colspan="8" class="text-center py-8 text-slate-500">
+              No interns found
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+    </div>
+
+  </div>
+
+</div>
